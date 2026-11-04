@@ -1,0 +1,20 @@
+name: declared
+on:
+  workflow_call:
+    inputs:
+      environment:
+        type: string
+        required: true
+    secrets:
+      PROBE_X:
+        required: true
+jobs:
+  show:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      HAS_X: ${{ secrets.PROBE_X != '' }}
+    steps:
+      - env:
+          X: ${{ secrets.PROBE_X }}
+        run: echo "declared HAS_X=$HAS_X len=${#X}"
